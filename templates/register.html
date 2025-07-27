@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="text-center">Регистрация</h2>
+
+    <form method="post" class="mt-4 w-50 mx-auto border rounded p-4 shadow">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary w-100">Регистрирай се</button>
+    </form>
+</div>
+
+{% endblock %}

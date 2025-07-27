@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.env
+*.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+*.sqlite3
+
+# VS Code / PyCharm
+.vscode/
+.idea/
+
+# Django
+*.log
+staticfiles/
+media/
+
+# Secret files
+.env
+*.secret
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Migrations (по избор, ако не искаш да ги следиш)
+# **/migrations/
+# !**/migrations/__init__.py
