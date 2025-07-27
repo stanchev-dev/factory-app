@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Нова проверка</h2>
+<form method="post" class="w-50 mx-auto">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Запази</button>
+</form>
+{% endblock %}
+

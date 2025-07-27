@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Проверки</h2>
+{% if user.role == 'manager' %}
+<a href="{% url 'inspection_create' %}" class="btn btn-primary mb-3">Нова проверка</a>
+<a href="{% url 'inspection_report' %}" class="btn btn-secondary mb-3">Отчет</a>
+{% endif %}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Име</th>
+        <th>Машина</th>
+        <th>Следваща</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for inspection in object_list %}
+    <tr>
+        <td>{{ inspection.name }}</td>
+        <td>{{ inspection.machine.name }}</td>
+        <td>{{ inspection.next_due }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="3">Няма проверки</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
