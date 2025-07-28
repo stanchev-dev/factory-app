@@ -5,12 +5,33 @@
 <div class="container mt-5">
     <h2 class="text-center">Регистрация</h2>
 
-    <form method="post" class="mt-4 w-50 mx-auto border rounded p-4 shadow">
+    <form method="post" class="mt-4 w-50 mx-auto border rounded p-4 shadow" id="registration-form">
         {% csrf_token %}
         {{ form.as_p }}
 
         <button type="submit" class="btn btn-primary w-100">Регистрирай се</button>
     </form>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const roleSelect = document.getElementById('id_role');
+    const secretKeyInput = document.getElementById('id_secret_key');
+    if (!roleSelect || !secretKeyInput) {
+        return;
+    }
+    const secretKeyField = secretKeyInput.parentElement;
+    function toggleSecretKey() {
+        if (roleSelect.value === 'manager') {
+            secretKeyField.style.display = '';
+        } else {
+            secretKeyField.style.display = 'none';
+            secretKeyInput.value = '';
+        }
+    }
+    roleSelect.addEventListener('change', toggleSecretKey);
+    toggleSecretKey();
+});
+</script>
 
 {% endblock %}
