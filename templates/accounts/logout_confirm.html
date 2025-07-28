@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <h2>Изход</h2>
+    <p>Сигурни ли сте, че искате да излезете?</p>
+    <form method="post" action="{% url 'logout' %}" class="d-inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Да</button>
+    </form>
+    <a href="{% url 'index' %}" class="btn btn-secondary ms-2">Не</a>
+</div>
+{% endblock %}
