@@ -2,9 +2,21 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
+
 from .models import CustomUser
 
 class RegistrationForm(UserCreationForm):
+    username = forms.CharField(
+        max_length=30,
+        help_text="Required. 30 characters or fewer. Letters, numbers and underscores only.",
+        validators=[
+            RegexValidator(
+                regex=r'^[A-Za-z0-9_]+$',
+                message="Username may contain only letters, numbers and underscores."
+            )
+        ],
+    )
     role = forms.ChoiceField(choices=CustomUser.RoleChoices.choices)
     secret_key = forms.CharField(required=False, help_text="Required if registering as manager.")
 

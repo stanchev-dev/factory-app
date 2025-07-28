@@ -7,10 +7,60 @@
 
     <form method="post" class="mt-4 w-50 mx-auto border rounded p-4 shadow">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        <div class="mb-3">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {% if form.username.help_text %}<div class="form-text">{{ form.username.help_text }}</div>{% endif %}
+            {% for error in form.username.errors %}<div class="text-danger">{{ error }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+            {% for error in form.password1.errors %}<div class="text-danger">{{ error }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+            {% for error in form.password2.errors %}<div class="text-danger">{{ error }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.role.label_tag }}
+            {{ form.role }}
+            {% for error in form.role.errors %}<div class="text-danger">{{ error }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3" id="secret-key-field" style="display:none;">
+            {{ form.secret_key.label_tag }}
+            {{ form.secret_key }}
+            {% if form.secret_key.help_text %}<div class="form-text">{{ form.secret_key.help_text }}</div>{% endif %}
+            {% for error in form.secret_key.errors %}<div class="text-danger">{{ error }}</div>{% endfor %}
+        </div>
 
         <button type="submit" class="btn btn-primary w-100">Регистрирай се</button>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const roleSelect = document.getElementById('id_role');
+        const secretField = document.getElementById('secret-key-field');
+
+        function toggleSecret() {
+            if (roleSelect.value === 'manager') {
+                secretField.style.display = 'block';
+            } else {
+                secretField.style.display = 'none';
+            }
+        }
+
+        roleSelect.addEventListener('change', toggleSecret);
+        toggleSecret();
+    });
+
+</script>
 
 {% endblock %}
