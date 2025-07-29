@@ -23,9 +23,11 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'index' %}">Начало</a>
         </li>
+        {% if user.is_authenticated %}
         <li class="nav-item">
-{#          <a class="nav-link" href="{% url 'suggestion_list' %}">Предложения</a>#}
+          <a class="nav-link" href="{% url 'suggestion_list' %}">Предложения</a>
         </li>
+        {% endif %}
         {% if user.is_authenticated and user.role == 'manager' %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'inspection_list' %}">Проверки</a>

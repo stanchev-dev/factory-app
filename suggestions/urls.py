@@ -1,5 +1,9 @@
 from django.urls import path
 
+from . import views
+
+
 urlpatterns = [
-    # ще добавим по-късно изгледи за предложения
+    path("", views.suggestion_list, name="suggestion_list"),
+    path("vote/<int:pk>/<str:vote>/", views.vote_suggestion, name="vote_suggestion"),
 ]
