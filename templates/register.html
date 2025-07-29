@@ -7,7 +7,71 @@
 
     <form method="post" class="mt-4 w-50 mx-auto border rounded p-4 shadow" id="registration-form">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        <div class="mb-3">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {% if form.username.errors %}
+                <ul class="text-danger">
+                    {% for error in form.username.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                <div class="form-text">{{ form.username.help_text|safe }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+                <ul class="text-danger">
+                    {% for error in form.password1.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                <div class="form-text">{{ form.password1.help_text|safe }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+                <ul class="text-danger">
+                    {% for error in form.password2.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                <div class="form-text">{{ form.password2.help_text|safe }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.role.label_tag }}
+            {{ form.role }}
+            {% if form.role.errors %}
+                <ul class="text-danger">
+                    {% for error in form.role.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                <div class="form-text">{{ form.role.help_text|safe }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.secret_key.label_tag }}
+            {{ form.secret_key }}
+            {% if form.secret_key.errors %}
+                <ul class="text-danger">
+                    {% for error in form.secret_key.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                <div class="form-text">{{ form.secret_key.help_text|safe }}</div>
+            {% endif %}
+        </div>
 
         <button type="submit" class="btn btn-primary w-100">Регистрирай се</button>
     </form>
