@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
@@ -31,3 +31,19 @@ class RegistrationForm(UserCreationForm):
         if role == CustomUser.RoleChoices.MANAGER and secret_key != settings.MANAGER_SECRET_KEY:
             raise ValidationError("Invalid secret key for manager registration.")
         return cleaned_data
+
+
+class CustomUserCreationForm(UserCreationForm):
+    """Form used by the Django admin to create users with the extra role field."""
+
+    class Meta(UserCreationForm.Meta):
+        model = CustomUser
+        fields = ("username", "role")
+
+
+class CustomUserChangeForm(UserChangeForm):
+    """Form used by the Django admin to edit existing users."""
+
+    class Meta:
+        model = CustomUser
+        fields = ("username", "role", "is_active", "is_staff")
