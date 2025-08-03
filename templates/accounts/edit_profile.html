@@ -2,11 +2,11 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center">Login</h2>
+    <h2 class="text-center">Edit Profile</h2>
     <form method="post" class="mt-4 w-50 mx-auto border rounded p-4 shadow">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary w-100">Log in</button>
+        <button type="submit" class="btn btn-primary w-100">Save</button>
     </form>
 </div>
 {% endblock %}

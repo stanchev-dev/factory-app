@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Предложения</h2>
+<h2>Suggestions</h2>
 <div class="mb-3">
   <form method="post">
     {% csrf_token %}
     <div class="input-group">
-      <textarea name="text" class="form-control" placeholder="Въведете предложение..."></textarea>
-      <button class="btn btn-primary" type="submit">Изпрати</button>
+      <textarea name="text" class="form-control" placeholder="Enter suggestion..."></textarea>
+      <button class="btn btn-primary" type="submit">Send</button>
     </div>
   </form>
 </div>
@@ -16,17 +16,17 @@
   {% for s in suggestions %}
   <div class="list-group-item">
     <p class="mb-1">{{ s.text }}</p>
-    <small class="text-muted">от {{ s.created_by.username }} - {{ s.created_at|date:'d.m.Y H:i' }}</small>
+    <small class="text-muted">by {{ s.created_by.username }} - {{ s.created_at|date:'d.m.Y H:i' }}</small>
     <div class="mt-2">
       <a class="btn btn-sm btn-outline-success" href="{% url 'vote_suggestion' s.id 'yes' %}">👍 {{ s.yes_votes }}</a>
       <a class="btn btn-sm btn-outline-danger" href="{% url 'vote_suggestion' s.id 'no' %}">👎 {{ s.no_votes }}</a>
       <span class="ms-3 {% if s.status == 'approved' %}text-success{% elif s.status == 'rejected' %}text-danger{% else %}text-warning{% endif %}">
-        {% if s.status == 'approved' %}Одобрено{% elif s.status == 'rejected' %}Отхвърлено{% else %}В процес{% endif %}
+        {% if s.status == 'approved' %}Approved{% elif s.status == 'rejected' %}Rejected{% else %}In progress{% endif %}
       </span>
     </div>
   </div>
   {% empty %}
-  <p>Няма предложения.</p>
+  <p>No suggestions.</p>
   {% endfor %}
 </div>
 {% endblock %}

@@ -19,9 +19,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('common.urls')),          # Начална страница (HomeView)
-    path('accounts/', include('accounts.urls')),  # Регистрация, вход/изход
-    path('suggestions/', include('suggestions.urls')),  # Предложения
-    path('inspections/', include('inspections.urls')),  # Проверки (само за мениджъри)
+    path('', include('common.urls')),          # Home page (HomeView)
+    path('accounts/', include('accounts.urls')),  # Registration, login/logout
+    path('suggestions/', include('suggestions.urls')),  # Suggestions
+    path('inspections/', include('inspections.urls')),  # Inspections (managers only)
 ]
 
