@@ -20,6 +20,7 @@ class RegisterView(FormView):
             username=form.cleaned_data['username'],
             password=form.cleaned_data['password1'],
             role=form.cleaned_data['role'],
+            profile_picture=form.cleaned_data['profile_picture'],
         )
         login(self.request, user)
         return super().form_valid(form)
