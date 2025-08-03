@@ -2,7 +2,7 @@
 
 
 <!DOCTYPE html>
-<html lang="bg">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>FactoryApp</title>
@@ -45,39 +45,42 @@
       </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Превключване на навигация">
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'index' %}">Начало</a>
-        </li>
         {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'suggestion_list' %}">Предложения</a>
+          <a class="nav-link" href="{% url 'suggestion_list' %}">Suggestions</a>
         </li>
         {% endif %}
         {% if user.is_authenticated and user.role == 'manager' %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'inspection_list' %}">Проверки</a>
+          <a class="nav-link" href="{% url 'inspection_list' %}">Inspections</a>
         </li>
         {% endif %}
       </ul>
       <ul class="navbar-nav">
         {% if user.is_authenticated %}
-        <li class="nav-item">
-          <span class="navbar-text me-2">Здравей, {{ user.username }}!</span>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'logout_confirm' %}">Изход</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{{ user.profile_picture }}" alt="Avatar" class="rounded-circle me-2" style="width:30px;height:30px;">
+            {{ user.username }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Profile</a></li>
+            <li><a class="dropdown-item text-danger" href="{% url 'delete_account' %}">Delete Account</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'logout_confirm' %}">Logout</a></li>
+          </ul>
         </li>
         {% else %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'login' %}">Вход</a>
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'register' %}">Регистрация</a>
+          <a class="nav-link" href="{% url 'register' %}">Register</a>
         </li>
         {% endif %}
       </ul>

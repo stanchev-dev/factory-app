@@ -14,4 +14,8 @@ class CustomUser(AbstractUser):
         choices=RoleChoices.choices,
         default=RoleChoices.WORKER,
     )
+    profile_picture = models.URLField(
+        blank=True,
+        default="https://via.placeholder.com/150",
+    )
 

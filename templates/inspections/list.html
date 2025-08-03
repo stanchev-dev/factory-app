@@ -1,30 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Проверки</h2>
+<h2>Inspections</h2>
 <div class="mb-4">
   <form method="post">
     {% csrf_token %}
     <div class="mb-2">
-      <input type="text" class="form-control" name="title" placeholder="Заглавие" required>
+      <input type="text" class="form-control" name="title" placeholder="Title" required>
     </div>
     <div class="mb-2">
-      <textarea class="form-control" name="description" placeholder="Описание"></textarea>
+      <textarea class="form-control" name="description" placeholder="Description"></textarea>
     </div>
     <div class="mb-2">
       <input type="date" class="form-control" name="due_date" required>
     </div>
-    <button type="submit" class="btn btn-primary">Създай</button>
+    <button type="submit" class="btn btn-primary">Create</button>
   </form>
 </div>
 
 <table class="table">
   <thead>
     <tr>
-      <th>Заглавие</th>
-      <th>Описание</th>
-      <th>Крайна дата</th>
-      <th>Оставащи дни</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Due date</th>
+      <th>Days left</th>
     </tr>
   </thead>
   <tbody>
@@ -36,7 +36,7 @@
       <td>{{ ins.days_left }}</td>
     </tr>
     {% empty %}
-    <tr><td colspan="4">Няма проверки.</td></tr>
+    <tr><td colspan="4">No inspections.</td></tr>
     {% endfor %}
   </tbody>
 </table>
@@ -50,7 +50,7 @@
         const div = document.createElement('div');
         div.className = 'toast align-items-center text-bg-info border-0 mb-2';
         div.role = 'alert';
-        div.innerHTML = `<div class="d-flex"><div class="toast-body">Остават ${n.days_left} дни до "${n.title}" (${n.due_date})</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div>`;
+        div.innerHTML = `<div class="d-flex"><div class="toast-body">There are ${n.days_left} days left until "${n.title}" (${n.due_date})</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div>`;
         document.getElementById('toast-container').appendChild(div);
         bootstrap.Toast.getOrCreateInstance(div).show();
       }

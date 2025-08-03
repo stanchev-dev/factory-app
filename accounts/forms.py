@@ -55,3 +55,14 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta(UserChangeForm.Meta):
         model = CustomUser
         fields = "__all__"
+
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ("username", "email", "profile_picture")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({"class": "form-control"})
