@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <h2>Inspections</h2>
 <div class="mb-4">
-  <form method="post">
+  <form method="post" class="card-style">
     {% csrf_token %}
     <div class="mb-2">
       <input type="text" class="form-control" name="title" placeholder="Title" required>
@@ -14,11 +15,11 @@
     <div class="mb-2">
       <input type="date" class="form-control" name="due_date" required>
     </div>
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-primary"><img src="{% static 'icons/add.svg' %}" class="icon me-1" alt="Add">Create</button>
   </form>
 </div>
 
-<table class="table">
+<table class="table card-style">
   <thead>
     <tr>
       <th>Title</th>
