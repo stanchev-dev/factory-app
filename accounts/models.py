@@ -1,8 +1,6 @@
 from django.db import models
-
-# Create your models here.
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from django.db import models
 
 class CustomUser(AbstractUser):
     class RoleChoices(models.TextChoices):
@@ -15,7 +13,6 @@ class CustomUser(AbstractUser):
         default=RoleChoices.WORKER,
     )
     profile_picture = models.URLField(
-        blank=True,
-        default="https://via.placeholder.com/150",
+        default=settings.DEFAULT_AVATAR_URL,
     )
 
