@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-5 text-center">
-    <h2>Logout</h2>
-    <p>Are you sure you want to log out?</p>
-    <form method="post" action="{% url 'logout' %}" class="d-inline">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Yes</button>
-    </form>
-    <a href="{% url 'index' %}" class="btn btn-secondary ms-2">No</a>
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card-style text-center">
+        <h2 class="mb-3">Logout</h2>
+        <p>Are you sure you want to log out?</p>
+        <form method="post" action="{% url 'logout' %}" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Yes</button>
+        </form>
+        <a href="{% url 'index' %}" class="btn btn-secondary ms-2">No</a>
+    </div>
 </div>
 {% endblock %}

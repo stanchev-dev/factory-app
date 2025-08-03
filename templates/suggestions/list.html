@@ -1,20 +1,21 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <h2>Suggestions</h2>
 <div class="mb-3">
-  <form method="post">
+  <form method="post" class="card-style">
     {% csrf_token %}
     <div class="input-group">
       <textarea name="text" class="form-control" placeholder="Enter suggestion..."></textarea>
-      <button class="btn btn-primary" type="submit">Send</button>
+      <button class="btn btn-primary" type="submit"><img src="{% static 'icons/add.svg' %}" class="icon me-1" alt="Add">Send</button>
     </div>
   </form>
 </div>
 
 <div class="list-group">
   {% for s in suggestions %}
-  <div class="list-group-item">
+  <div class="card-style mb-3">
     <p class="mb-1">{{ s.text }}</p>
     <small class="text-muted">by {{ s.created_by.username }} - {{ s.created_at|date:'d.m.Y H:i' }}</small>
     <div class="mt-2">

@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-5 text-center">
-    <h2>Delete Account</h2>
-    <p>Are you sure you want to delete your account?</p>
-    <form method="post" class="d-inline">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Yes, delete</button>
-    </form>
-    <a href="{% url 'index' %}" class="btn btn-secondary ms-2">Cancel</a>
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card-style text-center">
+        <h2 class="mb-3">Delete Account</h2>
+        <p>Are you sure you want to delete your account?</p>
+        <form method="post" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Yes, delete</button>
+        </form>
+        <a href="{% url 'index' %}" class="btn btn-secondary ms-2">Cancel</a>
+    </div>
 </div>
 {% endblock %}

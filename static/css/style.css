@@ -1,0 +1,95 @@
+body {
+  background-color: #f5f5f7;
+  font-family: 'Inter', sans-serif;
+}
+
+.navbar {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-weight: 600;
+}
+
+.navbar-brand img {
+  width: 32px;
+  height: 32px;
+}
+
+.profile-pic {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-left: 16px;
+}
+
+.sidebar {
+  width: 180px;
+  background-color: #f4f1e8;
+  padding-top: 20px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  color: #d35400;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar a:hover {
+  background-color: #e9e2d0;
+  cursor: pointer;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+.sidebar img.icon {
+  margin-right: 8px;
+}
+
+.content.with-sidebar {
+  margin-left: 180px;
+}
+
+.card-style {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+
+.btn,
+.sidebar a {
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  cursor: pointer;
+  filter: brightness(0.95);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    left: -180px;
+    transition: left 0.3s ease;
+  }
+  .sidebar.active {
+    left: 0;
+  }
+  .content.with-sidebar {
+    margin-left: 0;
+  }
+}
+
