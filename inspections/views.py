@@ -1,7 +1,8 @@
-from datetime import date
-
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import DeleteView
 
 from .models import Inspection
 
@@ -37,3 +38,15 @@ def inspection_list(request):
     ]
     context = {"inspections": inspections, "notifications": notifications}
     return render(request, "inspections/list.html", context)
+
+
+class InspectionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """Allow managers to delete their inspections."""
+
+    model = Inspection
+    success_url = reverse_lazy("inspection_list")
+    template_name = "inspections/delete.html"
+
+    def test_func(self):
+        user = self.request.user
+        return getattr(user, "role", None) == "manager" and self.get_object().created_by == user
