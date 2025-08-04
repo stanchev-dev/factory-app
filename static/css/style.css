@@ -29,6 +29,11 @@ body {
   height: 32px;
 }
 
+.brand-icon {
+  font-size: 32px;
+  line-height: 1;
+}
+
 .icon {
   width: 24px;
   height: 24px;
