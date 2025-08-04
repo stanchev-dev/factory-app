@@ -42,6 +42,20 @@ body {
   object-fit: cover;
 }
 
+.profile-link {
+  text-decoration: none;
+  color: #333333;
+}
+
+.profile-link:hover {
+  color: #333333;
+  text-decoration: none;
+}
+
+.profile-menu:hover .dropdown-menu {
+  display: block;
+}
+
 .navbar-nav .nav-link {
   color: #333333;
   padding: 10px 16px;
@@ -53,6 +67,7 @@ body {
 }
 
 .profile-dropdown {
+  background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
