@@ -45,3 +45,7 @@ class DeleteAccountView(LoginRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         request.user.delete()
         return redirect('index')
+
+
+class ProfileView(LoginRequiredMixin, TemplateView):
+    template_name = 'accounts/profile.html'
