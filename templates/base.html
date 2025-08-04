@@ -31,7 +31,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link d-flex align-items-center" href="{% url 'suggestion_history' %}">
-            <i class="fa-solid fa-clock-rotate-left me-2 icon"></i> History
+            <i class="fa-solid fa-clock-rotate-left me-2 icon" style="color: #000000ad;"></i> History
           </a>
         </li>
         {% if user.role == 'manager' %}
@@ -44,7 +44,7 @@
       </ul>
       {% endif %}
     </div>
-      <div class="ms-auto me-5 d-flex align-items-center">
+    <div class="ms-auto me-3 d-flex align-items-center">
       {% if user.is_authenticated %}
         <a href="{% url 'view_profile' %}" class="d-flex align-items-center profile-link me-2">
           <img src="{{ user.profile_picture|default:DEFAULT_AVATAR_URL }}" alt="Avatar" class="profile-pic" onerror="this.onerror=null;this.src='{{ DEFAULT_AVATAR_URL }}';">
@@ -83,4 +83,3 @@
 </div>
 </body>
 </html>
-
