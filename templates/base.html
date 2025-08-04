@@ -14,43 +14,13 @@
 <body>
 <nav class="navbar">
   <div class="container-fluid d-flex align-items-center">
-    <button class="btn btn-link p-0 me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
-      <img src="{% static 'icons/menu.svg' %}" alt="Menu" class="icon">
-    </button>
     <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
         <img src="{% static 'icons/factory.svg' %}" alt="Factory logo" class="me-2">
         <span>FactoryApp</span>
     </a>
-    <div class="ms-auto d-flex align-items-center">
+    <div class="flex-grow-1">
       {% if user.is_authenticated %}
-        <img src="{{ user.profile_picture|default:DEFAULT_AVATAR_URL }}" alt="Avatar" class="profile-pic rounded-circle me-2" title="{{ user.username }}" onerror="this.onerror=null;this.src='{{ DEFAULT_AVATAR_URL }}';">
-        <span class="me-3">{{ user.username }}</span>
-        <a class="btn btn-outline-secondary btn-sm d-flex align-items-center me-2" href="{% url 'edit_profile' %}">
-          <img src="{% static 'icons/edit.svg' %}" class="icon me-1" alt="Edit"> Edit Profile
-        </a>
-        <a class="btn btn-outline-secondary btn-sm d-flex align-items-center me-2" href="{% url 'logout_confirm' %}">
-          <img src="{% static 'icons/logout.svg' %}" class="icon me-1" alt="Logout"> Logout
-        </a>
-        <a class="btn btn-outline-danger btn-sm d-flex align-items-center" href="{% url 'delete_account' %}">
-          <img src="{% static 'icons/delete.svg' %}" class="icon me-1" alt="Delete"> Delete Account
-        </a>
-      {% else %}
-        <a class="btn btn-outline-primary btn-sm me-2" href="{% url 'login' %}">Login</a>
-        <a class="btn btn-primary btn-sm" href="{% url 'register' %}">Register</a>
-      {% endif %}
-    </div>
-  </div>
-</nav>
-
-<div class="d-flex">
-  <div class="offcanvas-lg offcanvas-start sidebar" tabindex="-1" id="sidebar" style="--bs-offcanvas-width: 260px;" aria-labelledby="sidebarLabel">
-    <div class="offcanvas-header d-lg-none">
-      <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body p-0">
-      <ul class="nav nav-pills flex-column mb-auto">
-        {% if user.is_authenticated %}
+      <ul class="nav justify-content-center">
         <li class="nav-item">
           <a class="nav-link d-flex align-items-center" href="{% url 'suggestion_list' %}">
             <img src="{% static 'icons/lightbulb.svg' %}" class="icon me-2" alt="Suggestions"> Suggestions
@@ -63,14 +33,44 @@
           </a>
         </li>
         {% endif %}
-        {% endif %}
       </ul>
+      {% endif %}
+    </div>
+    <div class="ms-auto d-flex align-items-center">
+      {% if user.is_authenticated %}
+      <div class="dropdown">
+        <a href="#" class="d-flex align-items-center" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="{{ user.profile_picture|default:DEFAULT_AVATAR_URL }}" alt="Avatar" class="profile-pic" title="{{ user.username }}" onerror="this.onerror=null;this.src='{{ DEFAULT_AVATAR_URL }}';">
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end profile-dropdown" aria-labelledby="profileDropdown">
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="{% url 'edit_profile' %}">
+              <img src="{% static 'icons/edit.svg' %}" class="icon me-2" alt="Edit"> Edit Profile
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="{% url 'logout_confirm' %}">
+              <img src="{% static 'icons/logout.svg' %}" class="icon me-2" alt="Logout"> Logout
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center text-danger" href="{% url 'delete_account' %}">
+              <img src="{% static 'icons/delete.svg' %}" class="icon me-2" alt="Delete"> Delete Account
+            </a>
+          </li>
+        </ul>
+      </div>
+      {% else %}
+        <a class="btn btn-outline-primary btn-sm me-2" href="{% url 'login' %}">Login</a>
+        <a class="btn btn-primary btn-sm" href="{% url 'register' %}">Register</a>
+      {% endif %}
     </div>
   </div>
-  <div class="content flex-grow-1 p-4">
-    {% block content %}
-    {% endblock %}
-  </div>
+</nav>
+
+<div class="content p-4">
+  {% block content %}
+  {% endblock %}
 </div>
 </body>
 </html>
