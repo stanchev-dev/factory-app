@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load tz %}
 
 {% block title %}Suggestions - FactoryApp{% endblock %}
 
@@ -19,7 +20,7 @@
   {% for s in suggestions %}
   <div class="card-style mb-3">
     <p class="mb-1">{{ s.text }}</p>
-    <small class="text-muted">by {{ s.created_by.username }} - {{ s.created_at|date:'d.m.Y H:i' }}</small>
+    <small class="text-muted">by {{ s.created_by.username }} - {{ s.created_at|localtime|date:'d.m.Y H:i' }}</small>
     <div class="mt-2">
       <a class="btn btn-sm btn-outline-success" href="{% url 'vote_suggestion' s.id 'yes' %}">👍 {{ s.yes_votes }}</a>
       <a class="btn btn-sm btn-outline-danger" href="{% url 'vote_suggestion' s.id 'no' %}">👎 {{ s.no_votes }}</a>
