@@ -22,14 +22,12 @@ body {
 
 .navbar-brand {
   font-weight: 600;
-}
-
-.navbar-brand span {
-  display: inline-block;
+  display: flex;
+  align-items: center;
   transition: transform 0.2s ease;
 }
 
-.navbar-brand:hover span {
+.navbar-brand:hover {
   transform: scale(1.05);
 }
 
@@ -99,9 +97,13 @@ body {
 }
 
 .navbar .nav-link {
-  color: #333333;
+  color: #000000;
   padding: 10px 16px;
   transition: transform 0.2s ease;
+}
+
+.navbar .nav-link .icon {
+  color: #0d6efd;
 }
 
 .navbar .nav-link:hover {
