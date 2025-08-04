@@ -25,3 +25,9 @@ def vote_suggestion(request, pk, vote):
     suggestion.save()
     return redirect("suggestion_list")
 
+
+@login_required
+def suggestion_history(request):
+    suggestions = Suggestion.objects.filter(created_by=request.user).order_by("-created_at")
+    return render(request, "suggestions/history.html", {"suggestions": suggestions})
+
