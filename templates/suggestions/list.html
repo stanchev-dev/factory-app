@@ -24,17 +24,24 @@
     <div class="mt-2">
       <a class="btn btn-sm btn-outline-success" href="{% url 'vote_suggestion' s.id 'yes' %}">👍 {{ s.yes_votes }}</a>
       <a class="btn btn-sm btn-outline-danger" href="{% url 'vote_suggestion' s.id 'no' %}">👎 {{ s.no_votes }}</a>
-      {% if user.role == 'manager' and s.status == 'in_process' %}
+      {% if user.role == 'manager' %}
       <div class="dropdown d-inline ms-3">
-        <a class="text-warning dropdown-toggle text-decoration-none" href="#" role="button" data-bs-toggle="dropdown">In progress</a>
+        <a class="badge dropdown-toggle text-decoration-none {% if s.status == 'approved' %}bg-success{% elif s.status == 'rejected' %}bg-danger{% else %}bg-warning text-dark{% endif %}" href="#" role="button" data-bs-toggle="dropdown">
+          {{ s.get_status_display }}
+        </a>
         <ul class="dropdown-menu">
           <li><a class="dropdown-item" href="{% url 'change_suggestion_status' s.id 'approved' %}">Approved</a></li>
           <li><a class="dropdown-item" href="{% url 'change_suggestion_status' s.id 'rejected' %}">Rejected</a></li>
+          <li><a class="dropdown-item" href="{% url 'change_suggestion_status' s.id 'in_process' %}">In Process</a></li>
         </ul>
       </div>
+      <form method="post" action="{% url 'delete_suggestion' s.id %}" class="d-inline">
+        {% csrf_token %}
+        <button class="btn btn-sm btn-outline-danger ms-2" type="submit"><i class="fa-solid fa-trash"></i></button>
+      </form>
       {% else %}
-      <span class="ms-3 {% if s.status == 'approved' %}text-success{% elif s.status == 'rejected' %}text-danger{% else %}text-warning{% endif %}">
-        {% if s.status == 'approved' %}Approved{% elif s.status == 'rejected' %}Rejected{% else %}In progress{% endif %}
+      <span class="badge ms-3 {% if s.status == 'approved' %}bg-success{% elif s.status == 'rejected' %}bg-danger{% else %}bg-warning text-dark{% endif %}">
+        {{ s.get_status_display }}
       </span>
       {% endif %}
     </div>

@@ -42,6 +42,7 @@ def change_suggestion_status(request, pk, status):
         in [
             Suggestion.StatusChoices.APPROVED,
             Suggestion.StatusChoices.REJECTED,
+            Suggestion.StatusChoices.IN_PROCESS,
         ]
     ):
         suggestion.status = status
@@ -53,4 +54,12 @@ def change_suggestion_status(request, pk, status):
 def suggestion_history(request):
     suggestions = Suggestion.objects.filter(created_by=request.user).order_by("-created_at")
     return render(request, "suggestions/history.html", {"suggestions": suggestions})
+
+
+@login_required
+def delete_suggestion(request, pk):
+    suggestion = get_object_or_404(Suggestion, pk=pk)
+    if request.user.role == "manager" and request.method == "POST":
+        suggestion.delete()
+    return redirect("suggestion_list")
 
