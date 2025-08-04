@@ -5,6 +5,7 @@ from .views import (
     LogoutConfirmView,
     EditProfileView,
     DeleteAccountView,
+    ProfileView,
 )
 
 urlpatterns = [
@@ -13,5 +14,6 @@ urlpatterns = [
     path('logout/confirm/', LogoutConfirmView.as_view(), name='logout_confirm'),
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
     path('profile/edit/', EditProfileView.as_view(), name='edit_profile'),
+    path('profile/', ProfileView.as_view(), name='view_profile'),
     path('delete/', DeleteAccountView.as_view(), name='delete_account'),
 ]

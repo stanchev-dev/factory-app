@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 {% block title %}Suggestion History - FactoryApp{% endblock %}
 {% block content %}
-<h2>Suggestion History</h2>
+<h1 class="text-center mb-4">Suggestion History</h1>
 <div class="list-group">
   {% if suggestions %}
     {% for s in suggestions %}
-    <div class="card-style mb-3">
-      <p class="mb-1">{{ s.text }}</p>
+    <div class="card-style mb-3 text-center">
+      <p class="mb-1 fs-4">{{ s.text }}</p>
       <small class="text-muted">{{ s.created_at|date:'d.m.Y H:i' }}</small>
     </div>
     {% endfor %}
   {% else %}
-    <p>{{ request.user.username }} have not made any suggestions.</p>
+    <p class="text-center">{{ request.user.username }} have not made any suggestions.</p>
   {% endif %}
 </div>
 {% endblock %}

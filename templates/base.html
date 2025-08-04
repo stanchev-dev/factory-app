@@ -47,7 +47,7 @@
     <div class="ms-auto me-5 d-flex align-items-center">
       {% if user.is_authenticated %}
       <div class="dropdown profile-menu">
-        <a href="#" class="d-flex align-items-center profile-link" id="profileDropdown">
+        <a href="{% url 'view_profile' %}" class="d-flex align-items-center profile-link" id="profileDropdown">
           <img src="{{ user.profile_picture|default:DEFAULT_AVATAR_URL }}" alt="Avatar" class="profile-pic me-2" onerror="this.onerror=null;this.src='{{ DEFAULT_AVATAR_URL }}';">
           <span>{{ user.username }}</span>
         </a>
