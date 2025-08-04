@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inspections History - FactoryApp{% endblock %}
+
+{% block content %}
+<h2>Inspections History</h2>
+<div class="list-group">
+  {% for ins in history %}
+  <div class="card-style mb-3 d-flex justify-content-between align-items-center history-item">
+    <div>
+      <p class="mb-1">{{ ins.title }}</p>
+      <small class="text-muted">{{ ins.description }}</small>
+    </div>
+    <a href="{% url 'inspection_delete' ins.pk %}" class="btn btn-danger btn-sm"><img src="{% static 'icons/delete.svg' %}" class="icon me-1" alt="Delete">Delete</a>
+  </div>
+  {% empty %}
+  <p>No completed inspections.</p>
+  {% endfor %}
+</div>
+{% endblock %}

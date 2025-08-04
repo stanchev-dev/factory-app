@@ -27,7 +27,6 @@ def inspection_list(request):
             return redirect("inspection_list")
 
     inspections = Inspection.objects.filter(created_by=request.user, checked=False).order_by("due_date")
-    history = Inspection.objects.filter(created_by=request.user, checked=True).order_by("due_date")
     notifications = [
         {
             "title": i.title,
@@ -37,7 +36,7 @@ def inspection_list(request):
         for i in inspections
         if i.days_left <= 10
     ]
-    context = {"inspections": inspections, "history": history, "notifications": notifications}
+    context = {"inspections": inspections, "notifications": notifications}
     return render(request, "inspections/list.html", context)
 
 
@@ -50,6 +49,15 @@ def inspection_check(request, pk):
         inspection.checked = True
         inspection.save()
     return redirect("inspection_list")
+
+
+@login_required
+def inspection_history(request):
+    if getattr(request.user, "role", None) != "manager":
+        return redirect("index")
+    history = Inspection.objects.filter(created_by=request.user, checked=True).order_by("due_date")
+    context = {"history": history}
+    return render(request, "inspections/history.html", context)
 
 
 class InspectionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
