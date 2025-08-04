@@ -19,10 +19,17 @@ def suggestion_list(request):
 def vote_suggestion(request, pk, vote):
     suggestion = get_object_or_404(Suggestion, pk=pk)
     if vote == "yes":
-        suggestion.yes_votes += 1
+        if suggestion.yes_voters.filter(id=request.user.id).exists():
+            suggestion.yes_voters.remove(request.user)
+        else:
+            suggestion.no_voters.remove(request.user)
+            suggestion.yes_voters.add(request.user)
     elif vote == "no":
-        suggestion.no_votes += 1
-    suggestion.save()
+        if suggestion.no_voters.filter(id=request.user.id).exists():
+            suggestion.no_voters.remove(request.user)
+        else:
+            suggestion.yes_voters.remove(request.user)
+            suggestion.no_voters.add(request.user)
     return redirect("suggestion_list")
 
 

@@ -18,10 +18,22 @@ class Suggestion(models.Model):
         choices=StatusChoices.choices,
         default=StatusChoices.IN_PROCESS,
     )
-    yes_votes = models.PositiveIntegerField(default=0)
-    no_votes = models.PositiveIntegerField(default=0)
+    yes_voters = models.ManyToManyField(
+        UserModel, related_name="suggestions_yes", blank=True
+    )
+    no_voters = models.ManyToManyField(
+        UserModel, related_name="suggestions_no", blank=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:  # pragma: no cover - trivial string repr
         return self.text[:20]
+
+    @property
+    def yes_votes(self) -> int:
+        return self.yes_voters.count()
+
+    @property
+    def no_votes(self) -> int:
+        return self.no_voters.count()
 
