@@ -24,9 +24,19 @@
     <div class="mt-2">
       <a class="btn btn-sm btn-outline-success" href="{% url 'vote_suggestion' s.id 'yes' %}">👍 {{ s.yes_votes }}</a>
       <a class="btn btn-sm btn-outline-danger" href="{% url 'vote_suggestion' s.id 'no' %}">👎 {{ s.no_votes }}</a>
+      {% if user.role == 'manager' and s.status == 'in_process' %}
+      <div class="dropdown d-inline ms-3">
+        <a class="text-warning dropdown-toggle text-decoration-none" href="#" role="button" data-bs-toggle="dropdown">In progress</a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="{% url 'change_suggestion_status' s.id 'approved' %}">Approved</a></li>
+          <li><a class="dropdown-item" href="{% url 'change_suggestion_status' s.id 'rejected' %}">Rejected</a></li>
+        </ul>
+      </div>
+      {% else %}
       <span class="ms-3 {% if s.status == 'approved' %}text-success{% elif s.status == 'rejected' %}text-danger{% else %}text-warning{% endif %}">
         {% if s.status == 'approved' %}Approved{% elif s.status == 'rejected' %}Rejected{% else %}In progress{% endif %}
       </span>
+      {% endif %}
     </div>
   </div>
   {% empty %}
