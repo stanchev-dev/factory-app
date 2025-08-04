@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load tz %}
 {% block title %}Suggestion History - FactoryApp{% endblock %}
 {% block content %}
 <h1 class="text-center mb-4">Suggestion History</h1>
@@ -7,7 +8,7 @@
     {% for s in suggestions %}
     <div class="card-style mb-3 text-center">
       <p class="mb-1 fs-4">{{ s.text }}</p>
-      <small class="text-muted">{{ s.created_at|date:'d.m.Y H:i' }}</small>
+      <small class="text-muted">{{ s.created_at|localtime|date:'d.m.Y H:i' }}</small>
     </div>
     {% endfor %}
   {% else %}
