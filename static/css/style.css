@@ -20,15 +20,18 @@ body {
   align-items: center;
 }
 
+
 .navbar-brand {
   font-weight: 600;
   display: flex;
   align-items: center;
-  transition: transform 0.2s ease;
+  color: #0d6efd;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .navbar-brand:hover {
   transform: scale(1.05);
+  color: #0b5ed7;
 }
 
 .navbar-brand img {
@@ -39,7 +42,8 @@ body {
 .brand-icon {
   font-size: 32px;
   line-height: 1;
-  color: #0d6efd;
+  vertical-align: middle;
+  color: inherit;
 }
 
 .icon {
