@@ -150,4 +150,15 @@ body {
 }
 
 
+.history-item {
+  transition: transform 0.2s ease;
+}
+
+.history-item:hover {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  transform: scale(1.05);
+}
+
+
 

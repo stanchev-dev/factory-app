@@ -4,53 +4,76 @@
 {% block title %}Inspections - FactoryApp{% endblock %}
 
 {% block content %}
-<h2>Inspections</h2>
-<div class="mb-4">
-  <form method="post" class="card-style">
-    {% csrf_token %}
-    <div class="mb-2">
-      <input type="text" class="form-control" name="title" placeholder="Title" required>
+<div class="row">
+  <div class="col-md-6">
+    <h2>Inspections</h2>
+    <div class="mb-4">
+      <form method="post" class="card-style">
+        {% csrf_token %}
+        <div class="mb-2">
+          <input type="text" class="form-control" name="title" placeholder="Title" required>
+        </div>
+        <div class="mb-2">
+          <textarea class="form-control" name="description" placeholder="Description"></textarea>
+        </div>
+        <div class="mb-2">
+          <input type="date" class="form-control" name="due_date" required>
+        </div>
+        <button type="submit" class="btn btn-primary"><img src="{% static 'icons/add.svg' %}" class="icon me-1" alt="Add">Create</button>
+      </form>
     </div>
-    <div class="mb-2">
-      <textarea class="form-control" name="description" placeholder="Description"></textarea>
-    </div>
-    <div class="mb-2">
-      <input type="date" class="form-control" name="due_date" required>
-    </div>
-    <button type="submit" class="btn btn-primary"><img src="{% static 'icons/add.svg' %}" class="icon me-1" alt="Add">Create</button>
-  </form>
-</div>
 
-<table class="table card-style">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Due date</th>
-      <th>Days left</th>
-      {% if user.is_authenticated and user.role == 'manager' %}
-      <th>Actions</th>
-      {% endif %}
-    </tr>
-  </thead>
-  <tbody>
-    {% for ins in inspections %}
-    <tr class="{% if ins.days_left > 10 %}table-success{% elif ins.days_left > 3 %}table-warning{% else %}table-danger{% endif %}">
-      <td>{{ ins.title }}</td>
-      <td>{{ ins.description }}</td>
-      <td>{{ ins.due_date|date:"d M Y" }}</td>
-      <td>{{ ins.days_left }}</td>
-      {% if user.is_authenticated and user.role == 'manager' %}
-      <td>
+    <table class="table card-style">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Due date</th>
+          <th>Days left</th>
+          {% if user.is_authenticated and user.role == 'manager' %}
+          <th>Actions</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for ins in inspections %}
+        <tr class="{% if ins.days_left > 10 %}table-success{% elif ins.days_left > 3 %}table-warning{% else %}table-danger{% endif %}">
+          <td>{{ ins.title }}</td>
+          <td>{{ ins.description }}</td>
+          <td>{{ ins.due_date|date:"d M Y" }}</td>
+          <td>{{ ins.days_left }}</td>
+          {% if user.is_authenticated and user.role == 'manager' %}
+          <td>
+            <form method="post" action="{% url 'inspection_check' ins.pk %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-success btn-sm"><img src="{% static 'icons/clipboard-check.svg' %}" class="icon me-1" alt="Check">Check</button>
+            </form>
+          </td>
+          {% endif %}
+        </tr>
+        {% empty %}
+        <tr><td colspan="{% if user.is_authenticated and user.role == 'manager' %}5{% else %}4{% endif %}">No inspections.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-6">
+    <h2>Inspections History</h2>
+    <div class="list-group">
+      {% for ins in history %}
+      <div class="card-style mb-3 d-flex justify-content-between align-items-center history-item">
+        <div>
+          <p class="mb-1">{{ ins.title }}</p>
+          <small class="text-muted">{{ ins.description }}</small>
+        </div>
         <a href="{% url 'inspection_delete' ins.pk %}" class="btn btn-danger btn-sm"><img src="{% static 'icons/delete.svg' %}" class="icon me-1" alt="Delete">Delete</a>
-      </td>
-      {% endif %}
-    </tr>
-    {% empty %}
-    <tr><td colspan="{% if user.is_authenticated and user.role == 'manager' %}5{% else %}4{% endif %}">No inspections.</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
+      </div>
+      {% empty %}
+      <p>No completed inspections.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 
 <div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11"></div>
 <script>
