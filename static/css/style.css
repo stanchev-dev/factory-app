@@ -60,25 +60,39 @@ body {
   text-decoration: none;
   color: #333333;
   cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
 .profile-link:hover {
   color: #333333;
   text-decoration: none;
+  transform: scale(1.1);
 }
 
 .profile-menu:hover .dropdown-menu {
   display: block;
 }
 
+.profile-menu {
+  position: relative;
+}
+
+.profile-menu .dropdown-menu {
+  top: 100%;
+  left: auto;
+  right: 0;
+}
+
 .navbar-nav .nav-link {
   color: #333333;
   padding: 10px 16px;
+  transition: transform 0.2s ease;
 }
 
 .navbar-nav .nav-link:hover {
   background-color: #f0f0f0;
   border-radius: 4px;
+  transform: scale(1.1);
 }
 
 .profile-dropdown {
@@ -89,10 +103,12 @@ body {
 
 .profile-dropdown .dropdown-item {
   padding: 10px 20px;
+  transition: transform 0.2s ease;
 }
 
 .profile-dropdown .dropdown-item:hover {
   background-color: #f0f0f0;
+  transform: scale(1.05);
 }
 
 .card-style {
