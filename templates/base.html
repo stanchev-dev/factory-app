@@ -12,58 +12,66 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar">
   <div class="container-fluid d-flex align-items-center">
-    <a class="navbar-brand d-flex flex-column align-items-center" href="{% url 'index' %}">
-        <img src="{% static 'icons/factory.svg' %}" alt="Factory logo">
+    <button class="btn btn-link p-0 me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+      <img src="{% static 'icons/menu.svg' %}" alt="Menu" class="icon">
+    </button>
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
+        <img src="{% static 'icons/factory.svg' %}" alt="Factory logo" class="me-2">
         <span>FactoryApp</span>
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto">
-        {% if user.is_authenticated %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'suggestion_list' %}">Suggestions</a>
-        </li>
-        {% endif %}
-        {% if user.is_authenticated and user.role == 'manager' %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'inspection_list' %}">Inspections</a>
-        </li>
-        {% endif %}
-      </ul>
-      <ul class="navbar-nav ms-auto">
-        {% if user.is_authenticated %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="{{ user.profile_picture }}" alt="Avatar" class="profile-pic rounded-circle me-2" title="{{ user.username }}">
-            <span>{{ user.username }}</span>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-            <li><a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Account</a></li>
-            <li><a class="dropdown-item" href="{% url 'logout_confirm' %}">Logout</a></li>
-            <li><a class="dropdown-item text-danger" href="{% url 'delete_account' %}">Delete Account</a></li>
-          </ul>
-        </li>
-        {% else %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'login' %}">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'register' %}">Register</a>
-        </li>
-        {% endif %}
-      </ul>
+    <div class="ms-auto d-flex align-items-center">
+      {% if user.is_authenticated %}
+        <img src="{{ user.profile_picture }}" alt="Avatar" class="profile-pic rounded-circle me-2" title="{{ user.username }}">
+        <span class="me-3">{{ user.username }}</span>
+        <a class="btn btn-outline-secondary btn-sm d-flex align-items-center me-2" href="{% url 'edit_profile' %}">
+          <img src="{% static 'icons/edit.svg' %}" class="icon me-1" alt="Edit"> Edit Profile
+        </a>
+        <a class="btn btn-outline-secondary btn-sm d-flex align-items-center me-2" href="{% url 'logout_confirm' %}">
+          <img src="{% static 'icons/logout.svg' %}" class="icon me-1" alt="Logout"> Logout
+        </a>
+        <a class="btn btn-outline-danger btn-sm d-flex align-items-center" href="{% url 'delete_account' %}">
+          <img src="{% static 'icons/delete.svg' %}" class="icon me-1" alt="Delete"> Delete Account
+        </a>
+      {% else %}
+        <a class="btn btn-outline-primary btn-sm me-2" href="{% url 'login' %}">Login</a>
+        <a class="btn btn-primary btn-sm" href="{% url 'register' %}">Register</a>
+      {% endif %}
     </div>
   </div>
 </nav>
 
-<div class="content p-4">
-  {% block content %}
-  {% endblock %}
+<div class="d-flex">
+  <div class="offcanvas-lg offcanvas-start sidebar" tabindex="-1" id="sidebar" style="--bs-offcanvas-width: 260px;" aria-labelledby="sidebarLabel">
+    <div class="offcanvas-header d-lg-none">
+      <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+      <ul class="nav nav-pills flex-column mb-auto">
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center" href="{% url 'suggestion_list' %}">
+            <img src="{% static 'icons/lightbulb.svg' %}" class="icon me-2" alt="Suggestions"> Suggestions
+          </a>
+        </li>
+        {% if user.role == 'manager' %}
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center" href="{% url 'inspection_list' %}">
+            <img src="{% static 'icons/clipboard-check.svg' %}" class="icon me-2" alt="Inspections"> Inspections
+          </a>
+        </li>
+        {% endif %}
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+  <div class="content flex-grow-1 p-4">
+    {% block content %}
+    {% endblock %}
+  </div>
 </div>
 </body>
 </html>
+
