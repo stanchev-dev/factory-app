@@ -1,5 +1,4 @@
 from django.db import models
-from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
@@ -13,6 +12,6 @@ class CustomUser(AbstractUser):
         default=RoleChoices.WORKER,
     )
     profile_picture = models.URLField(
-        default=settings.DEFAULT_AVATAR_URL,
+        default="/static/icons/default_avatar.svg",
     )
 
