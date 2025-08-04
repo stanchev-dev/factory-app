@@ -11,5 +11,6 @@ urlpatterns = [
         views.change_suggestion_status,
         name="change_suggestion_status",
     ),
+    path("delete/<int:pk>/", views.delete_suggestion, name="delete_suggestion"),
     path("history/", views.suggestion_history, name="suggestion_history"),
 ]

@@ -103,3 +103,61 @@ class SuggestionStatusChangeTests(TestCase):
         self.assertEqual(
             self.suggestion.status, Suggestion.StatusChoices.IN_PROCESS
         )
+
+    def test_manager_can_update_status_multiple_times(self):
+        self.client.login(username="manager", password="pass")
+        self.client.get(
+            reverse(
+                "change_suggestion_status",
+                args=[self.suggestion.id, "approved"],
+            )
+        )
+        self.client.get(
+            reverse(
+                "change_suggestion_status",
+                args=[self.suggestion.id, "rejected"],
+            )
+        )
+        self.suggestion.refresh_from_db()
+        self.assertEqual(self.suggestion.status, Suggestion.StatusChoices.REJECTED)
+        self.client.get(
+            reverse(
+                "change_suggestion_status",
+                args=[self.suggestion.id, "in_process"],
+            )
+        )
+        self.suggestion.refresh_from_db()
+        self.assertEqual(
+            self.suggestion.status, Suggestion.StatusChoices.IN_PROCESS
+        )
+
+
+class SuggestionDeleteTests(TestCase):
+    def setUp(self):
+        self.manager = User.objects.create_user(
+            username="manager", password="pass", role="manager"
+        )
+        self.worker = User.objects.create_user(
+            username="worker", password="pass", role="worker"
+        )
+        self.suggestion = Suggestion.objects.create(
+            text="Test", created_by=self.worker
+        )
+
+    def test_manager_can_delete_suggestion(self):
+        self.client.login(username="manager", password="pass")
+        self.client.post(
+            reverse("delete_suggestion", args=[self.suggestion.id])
+        )
+        self.assertFalse(
+            Suggestion.objects.filter(id=self.suggestion.id).exists()
+        )
+
+    def test_worker_cannot_delete_suggestion(self):
+        self.client.login(username="worker", password="pass")
+        self.client.post(
+            reverse("delete_suggestion", args=[self.suggestion.id])
+        )
+        self.assertTrue(
+            Suggestion.objects.filter(id=self.suggestion.id).exists()
+        )
