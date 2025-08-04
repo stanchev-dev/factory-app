@@ -1,9 +1,8 @@
 # inspections/models.py
 
-from datetime import date
-
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 UserModel = get_user_model()
 
@@ -21,4 +20,5 @@ class Inspection(models.Model):
     @property
     def days_left(self) -> int:
         """Return the remaining days until the inspection's due date."""
-        return (self.due_date - date.today()).days
+        # Use Django's timezone utilities to respect the configured time zone
+        return (self.due_date - timezone.localdate()).days
