@@ -31,7 +31,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link d-flex align-items-center" href="{% url 'suggestion_history' %}">
-            <i class="fa-solid fa-clock-rotate-left me-2"></i> History
+            <i class="fa-solid fa-clock-rotate-left me-2 icon" style="color: black;"></i> History
           </a>
         </li>
         {% if user.role == 'manager' %}
@@ -44,31 +44,31 @@
       </ul>
       {% endif %}
     </div>
-    <div class="ms-auto me-5 d-flex align-items-center">
+      <div class="ms-auto me-5 d-flex align-items-center">
       {% if user.is_authenticated %}
-      <div class="dropdown profile-menu">
-        <a href="{% url 'view_profile' %}" class="d-flex align-items-center profile-link" id="profileDropdown">
-          <img src="{{ user.profile_picture|default:DEFAULT_AVATAR_URL }}" alt="Avatar" class="profile-pic me-2" onerror="this.onerror=null;this.src='{{ DEFAULT_AVATAR_URL }}';">
-          <span>{{ user.username }}</span>
+        <a href="{% url 'view_profile' %}" class="d-flex align-items-center profile-link me-2">
+          <img src="{{ user.profile_picture|default:DEFAULT_AVATAR_URL }}" alt="Avatar" class="profile-pic" onerror="this.onerror=null;this.src='{{ DEFAULT_AVATAR_URL }}';">
         </a>
-        <ul class="dropdown-menu dropdown-menu-end profile-dropdown" aria-labelledby="profileDropdown">
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="{% url 'edit_profile' %}">
-              <img src="{% static 'icons/edit.svg' %}" class="icon me-2" alt="Edit"> Edit Profile
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="{% url 'logout_confirm' %}">
-              <img src="{% static 'icons/logout.svg' %}" class="icon me-2" alt="Logout"> Logout
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item d-flex align-items-center text-danger" href="{% url 'delete_account' %}">
-              <img src="{% static 'icons/delete.svg' %}" class="icon me-2" alt="Delete"> Delete Account
-            </a>
-          </li>
-        </ul>
-      </div>
+        <div class="dropdown profile-menu">
+          <span class="profile-link" id="profileDropdown">{{ user.username }}</span>
+          <ul class="dropdown-menu dropdown-menu-end profile-dropdown" aria-labelledby="profileDropdown">
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'edit_profile' %}">
+                <img src="{% static 'icons/edit.svg' %}" class="icon me-2" alt="Edit"> Edit Profile
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'logout_confirm' %}">
+                <img src="{% static 'icons/logout.svg' %}" class="icon me-2" alt="Logout"> Logout
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center text-danger" href="{% url 'delete_account' %}">
+                <img src="{% static 'icons/delete.svg' %}" class="icon me-2" alt="Delete"> Delete Account
+              </a>
+            </li>
+          </ul>
+        </div>
       {% else %}
         <a class="btn btn-outline-primary btn-sm me-2" href="{% url 'login' %}">Login</a>
         <a class="btn btn-primary btn-sm" href="{% url 'register' %}">Register</a>
