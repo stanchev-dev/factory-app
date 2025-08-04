@@ -66,3 +66,40 @@ class SuggestionVoteTests(TestCase):
         self.suggestion.refresh_from_db()
         self.assertEqual(self.suggestion.no_votes, 1)
         self.assertEqual(self.suggestion.yes_votes, 0)
+
+
+class SuggestionStatusChangeTests(TestCase):
+    def setUp(self):
+        self.manager = User.objects.create_user(
+            username="manager", password="pass", role="manager"
+        )
+        self.worker = User.objects.create_user(
+            username="worker", password="pass", role="worker"
+        )
+        self.suggestion = Suggestion.objects.create(
+            text="Test", created_by=self.worker
+        )
+
+    def test_manager_can_update_status(self):
+        self.client.login(username="manager", password="pass")
+        self.client.get(
+            reverse(
+                "change_suggestion_status",
+                args=[self.suggestion.id, "approved"],
+            )
+        )
+        self.suggestion.refresh_from_db()
+        self.assertEqual(self.suggestion.status, Suggestion.StatusChoices.APPROVED)
+
+    def test_worker_cannot_update_status(self):
+        self.client.login(username="worker", password="pass")
+        self.client.get(
+            reverse(
+                "change_suggestion_status",
+                args=[self.suggestion.id, "approved"],
+            )
+        )
+        self.suggestion.refresh_from_db()
+        self.assertEqual(
+            self.suggestion.status, Suggestion.StatusChoices.IN_PROCESS
+        )

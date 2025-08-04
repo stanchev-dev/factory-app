@@ -34,6 +34,22 @@ def vote_suggestion(request, pk, vote):
 
 
 @login_required
+def change_suggestion_status(request, pk, status):
+    suggestion = get_object_or_404(Suggestion, pk=pk)
+    if (
+        request.user.role == "manager"
+        and status
+        in [
+            Suggestion.StatusChoices.APPROVED,
+            Suggestion.StatusChoices.REJECTED,
+        ]
+    ):
+        suggestion.status = status
+        suggestion.save()
+    return redirect("suggestion_list")
+
+
+@login_required
 def suggestion_history(request):
     suggestions = Suggestion.objects.filter(created_by=request.user).order_by("-created_at")
     return render(request, "suggestions/history.html", {"suggestions": suggestions})
