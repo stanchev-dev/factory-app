@@ -13,6 +13,7 @@ class Inspection(models.Model):
     description = models.TextField(blank=True)
     due_date = models.DateField()
     created_by = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    checked = models.BooleanField(default=False)
 
     def __str__(self):  # pragma: no cover - trivial string representation
         return self.title
