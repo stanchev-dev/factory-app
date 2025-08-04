@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Inspection - FactoryApp{% endblock %}
+
+{% block content %}
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card-style text-center">
+        <h2 class="mb-3">Delete Inspection</h2>
+        <p>Are you sure you want to delete "{{ object.title }}"?</p>
+        <form method="post" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Yes, delete</button>
+        </form>
+        <a href="{% url 'inspection_list' %}" class="btn btn-secondary ms-2">Cancel</a>
+    </div>
+</div>
+{% endblock %}
