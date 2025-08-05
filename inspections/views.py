@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView
@@ -18,13 +19,18 @@ def inspection_list(request):
         description = request.POST.get("description")
         due_date = request.POST.get("due_date")
         if title and due_date:
-            Inspection.objects.create(
-                title=title,
-                description=description or "",
-                due_date=due_date,
-                created_by=request.user,
-            )
+            try:
+                Inspection.objects.create(
+                    title=title,
+                    description=description or "",
+                    due_date=due_date,
+                    created_by=request.user,
+                )
+                messages.success(request, "Inspection created successfully.")
+            except Exception:
+                messages.error(request, "Could not create inspection.")
             return redirect("inspection_list")
+        messages.error(request, "Title and due date are required.")
 
     inspections = Inspection.objects.filter(created_by=request.user, checked=False).order_by("due_date")
     notifications = [
@@ -46,8 +52,12 @@ def inspection_check(request, pk):
         return redirect("index")
     inspection = get_object_or_404(Inspection, pk=pk, created_by=request.user)
     if request.method == "POST":
-        inspection.checked = True
-        inspection.save()
+        try:
+            inspection.checked = True
+            inspection.save()
+            messages.success(request, "Inspection marked as completed.")
+        except Exception:
+            messages.error(request, "Could not update inspection.")
     return redirect("inspection_list")
 
 
