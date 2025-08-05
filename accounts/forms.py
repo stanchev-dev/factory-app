@@ -2,32 +2,16 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
+from django.core.files.storage import default_storage
 from .models import CustomUser
-from urllib.request import Request, urlopen
-from urllib.parse import urlparse
+ALLOWED_CONTENT_TYPES = {"image/jpeg", "image/png", "image/svg+xml"}
 
 
-def validate_image_url(value: str):
-    if not value:
-        return
-    allowed_extensions = [".jpg", ".jpeg", ".png", ".svg"]
-    if not any(value.lower().endswith(ext) for ext in allowed_extensions):
-        raise ValidationError("URL must end with .jpg, .jpeg, .png, or .svg")
-    if value.startswith("/static/"):
-        return
-    parsed = urlparse(value)
-    if parsed.scheme not in ("http", "https"):
-        raise ValidationError("Enter a valid URL or static path.")
-    try:
-        req = Request(value, method="HEAD")
-        with urlopen(req) as response:
-            content_type = response.headers.get("Content-Type", "")
-            if not content_type.startswith("image"):
-                raise ValidationError("URL does not point to an image")
-    except Exception:
-        raise ValidationError("Could not load image from URL")
+def validate_image_file(uploaded_file):
+    if uploaded_file and uploaded_file.content_type not in ALLOWED_CONTENT_TYPES:
+        raise ValidationError("Unsupported file type. Allowed types: JPG, PNG, SVG")
 
 
 class RegistrationForm(UserCreationForm):
@@ -46,11 +30,14 @@ class RegistrationForm(UserCreationForm):
     secret_key = forms.CharField(
         required=False, help_text="Required if registering as manager."
     )
-    profile_picture = forms.CharField(
+    profile_picture = forms.FileField(
         required=False,
-        label="Profile Image URL",
-        validators=[validate_image_url],
-        widget=forms.URLInput(),
+        label="Profile Image",
+        validators=[
+            FileExtensionValidator(["jpg", "jpeg", "png", "svg"]),
+            validate_image_file,
+        ],
+        widget=forms.FileInput(),
     )
 
     class Meta:
@@ -76,9 +63,20 @@ class RegistrationForm(UserCreationForm):
             raise ValidationError("Invalid secret key for manager registration.")
         return cleaned_data
 
-    def clean_profile_picture(self):
-        value = self.cleaned_data.get("profile_picture", "")
-        return value or settings.DEFAULT_AVATAR_URL
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.role = self.cleaned_data["role"]
+        uploaded_file = self.cleaned_data.get("profile_picture")
+        if uploaded_file:
+            filename = default_storage.save(
+                f"profile_pictures/{uploaded_file.name}", uploaded_file
+            )
+            user.profile_picture = default_storage.url(filename)
+        else:
+            user.profile_picture = settings.DEFAULT_AVATAR_URL
+        if commit:
+            user.save()
+        return user
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -98,11 +96,14 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class EditProfileForm(forms.ModelForm):
-    profile_picture = forms.CharField(
+    profile_picture = forms.FileField(
         required=False,
-        label="Profile Image URL",
-        validators=[validate_image_url],
-        widget=forms.URLInput(),
+        label="Profile Image",
+        validators=[
+            FileExtensionValidator(["jpg", "jpeg", "png", "svg"]),
+            validate_image_file,
+        ],
+        widget=forms.FileInput(),
     )
 
     class Meta:
@@ -113,10 +114,15 @@ class EditProfileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({"class": "form-control"})
-        self.fields["profile_picture"].initial = (
-            self.instance.profile_picture or settings.DEFAULT_AVATAR_URL
-        )
 
-    def clean_profile_picture(self):
-        value = self.cleaned_data.get("profile_picture", "")
-        return value or settings.DEFAULT_AVATAR_URL
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        uploaded_file = self.cleaned_data.get("profile_picture")
+        if uploaded_file:
+            filename = default_storage.save(
+                f"profile_pictures/{uploaded_file.name}", uploaded_file
+            )
+            instance.profile_picture = default_storage.url(filename)
+        if commit:
+            instance.save()
+        return instance

@@ -8,7 +8,7 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">Register</h2>
 
-    <form method="post" class="card-style w-50 mx-auto" id="registration-form">
+    <form method="post" enctype="multipart/form-data" class="card-style w-50 mx-auto" id="registration-form">
         {% csrf_token %}
 
         <div class="mb-3">
