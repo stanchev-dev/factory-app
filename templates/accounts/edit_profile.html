@@ -21,18 +21,6 @@
         </div>
 
         <div class="mb-3">
-            {{ form.email.label_tag }}
-            {{ form.email }}
-            {% if form.email.errors %}
-                <ul class="text-danger">
-                    {% for error in form.email.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="mb-3">
             {{ form.profile_picture.label_tag }}
             {{ form.profile_picture }}
             {% if form.profile_picture.errors %}
