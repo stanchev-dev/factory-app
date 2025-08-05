@@ -18,6 +18,7 @@ class CustomUser(AbstractUser):
         default=settings.DEFAULT_AVATAR_URL,
     )
 
+
     @property
     def profile_image_url(self) -> str:
         """Return the user's profile image or the default avatar."""
