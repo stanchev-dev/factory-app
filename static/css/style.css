@@ -149,6 +149,10 @@ body {
   transform: scale(1.1);
 }
 
+.suggestion-send-btn:hover {
+  transform: scale(1.03);
+}
+
 
 .history-item {
   transition: transform 0.2s ease;
