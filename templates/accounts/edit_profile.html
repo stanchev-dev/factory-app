@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container mt-5">
     <h2 class="text-center mb-4">Edit Profile</h2>
-    <form method="post" class="card-style w-50 mx-auto">
+    <form method="post" enctype="multipart/form-data" class="card-style w-50 mx-auto">
         {% csrf_token %}
 
         <div class="mb-3">
