@@ -6,12 +6,20 @@ from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 from .models import CustomUser
 from urllib.request import Request, urlopen
+from urllib.parse import urlparse
 
 
 def validate_image_url(value: str):
+    if not value:
+        return
     allowed_extensions = [".jpg", ".jpeg", ".png", ".svg"]
     if not any(value.lower().endswith(ext) for ext in allowed_extensions):
         raise ValidationError("URL must end with .jpg, .jpeg, .png, or .svg")
+    if value.startswith("/static/"):
+        return
+    parsed = urlparse(value)
+    if parsed.scheme not in ("http", "https"):
+        raise ValidationError("Enter a valid URL or static path.")
     try:
         req = Request(value, method="HEAD")
         with urlopen(req) as response:
@@ -38,11 +46,11 @@ class RegistrationForm(UserCreationForm):
     secret_key = forms.CharField(
         required=False, help_text="Required if registering as manager."
     )
-    profile_picture = forms.URLField(
-        initial=settings.DEFAULT_AVATAR_URL,
-        required=True,
+    profile_picture = forms.CharField(
+        required=False,
         label="Profile Image URL",
         validators=[validate_image_url],
+        widget=forms.URLInput(),
     )
 
     class Meta:
@@ -68,6 +76,10 @@ class RegistrationForm(UserCreationForm):
             raise ValidationError("Invalid secret key for manager registration.")
         return cleaned_data
 
+    def clean_profile_picture(self):
+        value = self.cleaned_data.get("profile_picture", "")
+        return value or settings.DEFAULT_AVATAR_URL
+
 
 class CustomUserCreationForm(UserCreationForm):
     """Admin form for creating users with a role."""
@@ -86,10 +98,11 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class EditProfileForm(forms.ModelForm):
-    profile_picture = forms.URLField(
-        required=True,
+    profile_picture = forms.CharField(
+        required=False,
         label="Profile Image URL",
         validators=[validate_image_url],
+        widget=forms.URLInput(),
     )
 
     class Meta:
@@ -103,3 +116,7 @@ class EditProfileForm(forms.ModelForm):
         self.fields["profile_picture"].initial = (
             self.instance.profile_picture or settings.DEFAULT_AVATAR_URL
         )
+
+    def clean_profile_picture(self):
+        value = self.cleaned_data.get("profile_picture", "")
+        return value or settings.DEFAULT_AVATAR_URL
