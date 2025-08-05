@@ -11,7 +11,9 @@ class CustomUser(AbstractUser):
         choices=RoleChoices.choices,
         default=RoleChoices.WORKER,
     )
-    profile_picture = models.URLField(
+    profile_picture = models.CharField(
+        max_length=255,
+        blank=True,
         default="/static/icons/default_avatar.svg",
     )
 
