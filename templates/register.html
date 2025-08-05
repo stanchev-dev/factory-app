@@ -79,6 +79,7 @@
         <div class="mb-3">
             {{ form.profile_picture.label_tag }}
             {{ form.profile_picture }}
+            <div class="form-text">{{ form.profile_picture.help_text }}</div>
             {% if form.profile_picture.errors %}
                 <ul class="text-danger">
                     {% for error in form.profile_picture.errors %}

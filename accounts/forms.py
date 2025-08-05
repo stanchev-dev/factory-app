@@ -38,6 +38,7 @@ class RegistrationForm(UserCreationForm):
             validate_image_file,
         ],
         widget=forms.FileInput(),
+        help_text="If you don't upload a photo, your profile picture will be set to default.",
     )
 
     class Meta:
