@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Departments{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Departments</h2>
+{% if user.role == 'manager' %}
+<form method="post" class="mb-3">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Add Department</button>
+</form>
+{% endif %}
+
+<ul class="list-group">
+    {% for department in departments %}
+    <li class="list-group-item">
+        <strong>{{ department.name }}</strong>{% if department.description %} - {{ department.description }}{% endif %}
+    </li>
+    {% empty %}
+    <li class="list-group-item">No departments available.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
+

@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Suggestion
@@ -9,8 +10,13 @@ def suggestion_list(request):
     if request.method == "POST":
         text = request.POST.get("text")
         if text:
-            Suggestion.objects.create(text=text, created_by=request.user)
+            try:
+                Suggestion.objects.create(text=text, created_by=request.user)
+                messages.success(request, "Suggestion submitted successfully.")
+            except Exception:
+                messages.error(request, "Could not submit suggestion.")
             return redirect("suggestion_list")
+        messages.error(request, "Suggestion text cannot be empty.")
     suggestions = Suggestion.objects.all().order_by("created_at")
     return render(request, "suggestions/list.html", {"suggestions": suggestions})
 
@@ -60,6 +66,10 @@ def suggestion_history(request):
 def delete_suggestion(request, pk):
     suggestion = get_object_or_404(Suggestion, pk=pk)
     if request.user.role == "manager" and request.method == "POST":
-        suggestion.delete()
+        try:
+            suggestion.delete()
+            messages.success(request, "Suggestion deleted.")
+        except Exception:
+            messages.error(request, "Could not delete suggestion.")
     return redirect("suggestion_list")
 

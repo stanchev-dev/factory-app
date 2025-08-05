@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Machines{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Machines</h2>
+{% if user.role == 'manager' %}
+<form method="post" class="mb-3">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Add Machine</button>
+</form>
+{% endif %}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Serial Number</th>
+            <th>Department</th>
+            <th>Last Maintenance</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for machine in machines %}
+        <tr>
+            <td>{{ machine.name }}</td>
+            <td>{{ machine.serial_number }}</td>
+            <td>{{ machine.department.name }}</td>
+            <td>{{ machine.last_maintenance|date:'Y-m-d' }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No machines available.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
