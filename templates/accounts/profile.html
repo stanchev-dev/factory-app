@@ -3,7 +3,7 @@
 {% block content %}
 <h1 class="text-center mb-4">Profile</h1>
 <div class="profile-section d-flex flex-column align-items-center">
-  <img src="{{ user.profile_picture|default:DEFAULT_AVATAR_URL }}" alt="Avatar" class="profile-pic-large mb-2" onerror="this.onerror=null;this.src='{{ DEFAULT_AVATAR_URL }}';">
+  <img src="{{ user.profile_image_url }}" alt="Avatar" class="profile-pic-large mb-2" onerror="this.onerror=null;this.src='{{ DEFAULT_AVATAR_URL }}';">
   <h2 class="profile-username mb-2">{{ user.username }}</h2>
   <p class="mb-1"><span class="text-muted small">email for contact:</span> {{ user.email }}</p>
   <p class="text-muted small mb-0">{{ user.get_role_display }}</p>
