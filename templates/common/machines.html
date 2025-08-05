@@ -18,6 +18,9 @@
             <th>Serial Number</th>
             <th>Department</th>
             <th>Last Maintenance</th>
+            {% if user.role == 'manager' %}
+            <th></th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -27,9 +30,17 @@
             <td>{{ machine.serial_number }}</td>
             <td>{{ machine.department.name }}</td>
             <td>{{ machine.last_maintenance|date:'Y-m-d' }}</td>
+            {% if user.role == 'manager' %}
+            <td>
+                <form method="post" action="{% url 'delete_machine' machine.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+            {% endif %}
         </tr>
         {% empty %}
-        <tr><td colspan="4">No machines available.</td></tr>
+        <tr><td colspan="{% if user.role == 'manager' %}5{% else %}4{% endif %}">No machines available.</td></tr>
         {% endfor %}
     </tbody>
 </table>
