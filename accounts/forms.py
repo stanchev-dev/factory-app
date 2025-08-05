@@ -109,7 +109,7 @@ class EditProfileForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ("username", "email", "profile_picture")
+        fields = ("username", "profile_picture")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
