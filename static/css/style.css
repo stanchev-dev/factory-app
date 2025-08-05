@@ -67,8 +67,8 @@ body {
 }
 
 .profile-pic-large {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -158,6 +158,20 @@ body {
   background-color: #f0f0f0;
   border-radius: 4px;
   transform: scale(1.02);
+}
+
+
+.profile-section {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+}
+
+.profile-username {
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 
