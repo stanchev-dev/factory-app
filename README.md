@@ -1,73 +1,94 @@
-# FactoryApp
+# 🏭 FactoryApp
 
-FactoryApp is a Django-based platform for managing day-to-day factory activity. Workers and managers share a single interface for improvement suggestions, inspections and asset tracking.
+FactoryApp is a Django-based platform for managing day-to-day factory activity. Workers and managers share a single interface for improvement suggestions, inspections, and asset tracking.
 
-## Features
+---
 
-### Role-based accounts
-* Custom `CustomUser` model with **worker** and **manager** roles, plus optional profile images.
-* Manager registration requires a secret key.
+## ✅ Features
 
-### Improvement suggestions
-* Workers submit suggestions and vote "yes" or "no" on other proposals.
-* Managers update the status of each suggestion to *in process*, *approved* or *rejected*.
+### 🔐 Role-based user accounts
+- Custom `CustomUser` model provides distinct **worker** and **manager** roles, with optional profile images.
+- Manager registration is gated by a secret key (`S0FTUNI-SECRET`) for added security.
 
-### Inspection scheduler
-* Managers create inspections with due dates and track how many days remain.
-* Completed inspections are archived for later review.
+### 💡 Improvement suggestion workflow
+- Workers submit suggestions and vote “yes” or “no” on others.
+- Managers update each suggestion’s status to *in process*, *approved*, or *rejected*.
+- Suggestions cannot be edited after publishing, but can be deleted.
 
-### Factory registry
-* Simple CRUD pages for departments and machines owned by each department.
+### 🛡️ Inspection scheduler
+- Managers create inspection tasks with due dates.
+- Tracks how many days remain until each inspection is due.
+- Uses color indicators:
+  - 🟢 Enough time
+  - 🟠 Near deadline
+  - 🔴 Overdue
+- Completed inspections are archived for review.
 
-## Technology stack
-* Python 3.12
-* Django 5.2
-* SQLite database (development)
-* Bootstrap-powered HTML templates
+### 🏭 Factory registry
+- Two separate models: `Department` and `Machine`.
+- Managers use simple CRUD interfaces to maintain a list of departments and assign machines to each one.
+- Enables basic asset tracking and reflects the actual structure of factory floors.
+
+---
+
+## 🧰 Technology stack
+
+### Core technologies
+- Python 3.12
+- Django 5.2
+- SQLite (for development)
+- Bootstrap-powered HTML templates
+-- `python-dotenv` for automatic loading of environment variables from a `.env` file
+
+### Python dependencies
+- Django 5.2.4
+- asgiref
+- sqlparse
+- tzdata
+
+All dependencies are listed in `requirements.txt`.
+
+---
+
+## ⚙️ Getting started
+
+1. **Clone the repository**
+   git clone https://github.com/stanchev-dev/factory-app.git
+   cd factory-app
 
 ## Getting started
 1. Clone the repository
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/factory-app.git
+   
+   git clone https://github.com/stanchev-dev/factory-app.git
    cd factory-app
-   ```
+   
 2. Create a virtual environment and install dependencies
-   ```bash
+   
    python -m venv venv
    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
    pip install -r requirements.txt
-   ```
-3. Apply database migrations
-   ```bash
+   
+ 3. Create a .env file with the following:
+  SECRET_KEY=your-secret-key
+  DEBUG=True
+  DATABASE_NAME=db.sqlite3
+
+4. Apply database migrations
+   
    python manage.py migrate
-   ```
-4. Run the development server
-   ```bash
+   
+5. Run the development server
+   
    python manage.py runserver
-   ```
+   
 
-## Environment variables
-Define the following settings in a `.env` file or the environment before running the project:
+## 🎓 Project Purpose
+FactoryApp was developed as an educational final project to demonstrate advanced Django concepts in a real-world scenario. The application simulates an internal factory management system, showcasing role-based authentication, user-driven suggestions, inspection scheduling, and asset tracking. It serves as a full-stack example of how Django can be used to build secure, modular, and scalable internal tools for organizations.
 
-| Variable | Purpose |
-|----------|---------|
-| `SECRET_KEY` | Django secret key |
-| `DEBUG` | Set to `True` to enable debug mode (development only) |
-| `MANAGER_SECRET_KEY` | Required when registering a manager account |
-
-## Running tests
-```bash
-python manage.py test
-```
-
-## Project structure
-```
-accounts/      – custom user model and authentication forms
-suggestions/   – suggestion submission and voting logic
-inspections/   – scheduling and tracking of inspections
-common/        – departments, machines and shared views
-config/        – Django project configuration
-```
+## 📬 Contact
+Questions or feedback? Open a GitHub Issue or get in touch through the repository:
+🔗 https://github.com/stanchev-dev/factory-app
 
 ## License
 This repository is provided for educational purposes and is not intended for production use.
+
